@@ -1,0 +1,67 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:8603485986068716409",
+      "lastPropertyId": "8:6900223075612399274",
+      "name": "Todo",
+      "properties": [
+        {
+          "id": "1:7826969740895612372",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5057346035688916435",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "3:5692763107412467226",
+          "name": "location",
+          "type": 9
+        },
+        {
+          "id": "4:300496279546851944",
+          "name": "isCompleted",
+          "type": 1
+        },
+        {
+          "id": "5:2457157229254666075",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "6:3815763942776790256",
+          "name": "todoDate",
+          "type": 10
+        },
+        {
+          "id": "7:5233719317109496273",
+          "name": "audioBase64",
+          "type": 9
+        },
+        {
+          "id": "8:6900223075612399274",
+          "name": "audioPath",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:8603485986068716409",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

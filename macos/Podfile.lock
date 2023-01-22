@@ -1,0 +1,47 @@
+PODS:
+  - audioplayers_darwin (0.0.1):
+    - FlutterMacOS
+  - FlutterMacOS (1.0.0)
+  - ObjectBox (1.8.1-sync-rc)
+  - objectbox_sync_flutter_libs (0.0.1):
+    - FlutterMacOS
+    - ObjectBox (= 1.8.1-sync-rc)
+  - path_provider_macos (0.0.1):
+    - FlutterMacOS
+  - record_macos (0.2.0):
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - audioplayers_darwin (from `Flutter/ephemeral/.symlinks/plugins/audioplayers_darwin/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+  - objectbox_sync_flutter_libs (from `Flutter/ephemeral/.symlinks/plugins/objectbox_sync_flutter_libs/macos`)
+  - path_provider_macos (from `Flutter/ephemeral/.symlinks/plugins/path_provider_macos/macos`)
+  - record_macos (from `Flutter/ephemeral/.symlinks/plugins/record_macos/macos`)
+
+SPEC REPOS:
+  trunk:
+    - ObjectBox
+
+EXTERNAL SOURCES:
+  audioplayers_darwin:
+    :path: Flutter/ephemeral/.symlinks/plugins/audioplayers_darwin/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+  objectbox_sync_flutter_libs:
+    :path: Flutter/ephemeral/.symlinks/plugins/objectbox_sync_flutter_libs/macos
+  path_provider_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_macos/macos
+  record_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/record_macos/macos
+
+SPEC CHECKSUMS:
+  audioplayers_darwin: dcad41de4fbd0099cb3749f7ab3b0cb8f70b810c
+  FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
+  ObjectBox: 06a8a8f95b2714ec2c4c3855c3e7050c440baa77
+  objectbox_sync_flutter_libs: 55923ed48e6f738d3ebdb53ec51cc0e3199f0d36
+  path_provider_macos: 05fb0ef0cedf3e5bd179b9e41a638682b37133ea
+  record_macos: 937889e0f2a7a12b6fc14e97a3678e5a18943de6
+
+PODFILE CHECKSUM: 0d3963a09fc94f580682bd88480486da345dc3f0
+
+COCOAPODS: 1.11.3
