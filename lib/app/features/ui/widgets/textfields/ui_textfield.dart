@@ -15,6 +15,7 @@ class UITextField extends StatefulWidget {
     this.obscureText = false,
     this.controller,
     this.initialValue,
+    this.datePicker = false,
   }) : super(key: key);
 
   final Widget? preffixIcon;
@@ -26,6 +27,7 @@ class UITextField extends StatefulWidget {
   final bool? obscureText;
   final TextEditingController? controller;
   final String? initialValue;
+  final bool? datePicker;
 
   @override
   State<UITextField> createState() => _UITextFieldState();
@@ -52,31 +54,38 @@ class _UITextFieldState extends State<UITextField> {
           children: [
             if (widget.hintText != null) TextMedium(widget.hintText),
             if (widget.hintText != null) const SizedBox(height: 8),
-            Container(
-              height: 45,
-              decoration:
-                  BoxDecoration(gradient: fieldFocused ? CustomColors.gradient : null, borderRadius: borderRadius),
-              child: Padding(
-                padding: const EdgeInsets.all(1.0),
-                child: TextFormField(
-                  obscureText: widget.obscureText!,
-                  onTap: widget.onTap,
-                  onChanged: widget.onChanged,
-                  controller: widget.controller,
-                  initialValue: widget.initialValue,
-                  style: RobotoStyle.regular(context)
-                      .merge(TextStyle(color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 16)),
-                  cursorColor: CustomColors.primaryBlue,
-                  decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Theme.of(context).backgroundColor,
-                      focusedBorder: border,
-                      enabledBorder: border,
-                      errorBorder: border,
-                      disabledBorder: border,
-                      suffixIcon: widget.suffixIcon,
-                      prefixIconColor: CustomColors.lightGrey,
-                      prefixIcon: Padding(padding: const EdgeInsets.all(12), child: widget.preffixIcon)),
+            GestureDetector(
+              onTap: widget.datePicker! ? widget.onTap : null,
+              child: Container(
+                height: 45,
+                decoration: BoxDecoration(
+                    gradient: fieldFocused ? CustomColors.gradient : null,
+                    borderRadius: borderRadius),
+                child: Padding(
+                  padding: const EdgeInsets.all(1.0),
+                  child: TextFormField(
+                    enabled: !widget.datePicker!,
+                    obscureText: widget.obscureText!,
+                    onChanged: widget.onChanged,
+                    controller: widget.controller,
+                    initialValue: widget.initialValue,
+                    style: RobotoStyle.regular(context).merge(TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color,
+                        fontSize: 16)),
+                    cursorColor: CustomColors.primaryBlue,
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Theme.of(context).backgroundColor,
+                        focusedBorder: border,
+                        enabledBorder: border,
+                        errorBorder: border,
+                        disabledBorder: border,
+                        suffixIcon: widget.suffixIcon,
+                        prefixIconColor: CustomColors.lightGrey,
+                        prefixIcon: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: widget.preffixIcon)),
+                  ),
                 ),
               ),
             ),

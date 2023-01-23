@@ -62,3 +62,7 @@ class TranscriptionSuccessful extends HomeState {
 }
 
 class TranscriptionFailed extends HomeState {}
+
+class AudioLoading extends HomeState {}
+
+class AudioLoaded extends HomeState {}

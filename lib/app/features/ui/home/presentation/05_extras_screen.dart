@@ -11,6 +11,8 @@ class ExtrasScreen extends StatefulWidget {
 class _ExtrasScreenState extends State<ExtrasScreen> {
   @override
   Widget build(BuildContext context) {
-    return const UIScaffold(body: [],);
+    return const UIScaffold(
+      body: [],
+    );
   }
 }
