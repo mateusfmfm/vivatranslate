@@ -1,5 +1,5 @@
-import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:vivatranslate_mateus/app/features/ui/home/presentation/widgets/todo_list.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/scaffolds/ui_scaffold.dart';
 
 class ShowTodosScreen extends StatefulWidget {
@@ -12,6 +12,8 @@ class ShowTodosScreen extends StatefulWidget {
 class _ShowTodosScreenState extends State<ShowTodosScreen> {
   @override
   Widget build(BuildContext context) {
-    return UIScaffold(body: [],);
+    return const UIScaffold(body: [
+      TodoList(),
+    ],);
   }
 }

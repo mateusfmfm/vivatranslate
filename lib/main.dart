@@ -8,7 +8,6 @@ import 'package:vivatranslate_mateus/app/features/routes/app_router.dart';
 import 'package:vivatranslate_mateus/app/features/routes/app_routes.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/01_home_screen.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/cubit/home_cubit.dart';
-import 'package:vivatranslate_mateus/app/features/ui/widgets/scaffolds/widgets/action_buttons.dart';
 
 late ObjectBox objectBox;
 Future main() async {

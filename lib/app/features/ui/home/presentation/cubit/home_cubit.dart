@@ -41,10 +41,7 @@ class HomeCubit extends Cubit<HomeState> {
     if (value.isEmpty) {
       emit(HomeInitial());
     } else {
-      _searchedTodos = _todos
-          .where((todo) =>
-              todo.description!.toLowerCase().contains(value.toLowerCase()))
-          .toList();
+      _searchedTodos = _todos.where((todo) => todo.description!.toLowerCase().contains(value.toLowerCase())).toList();
       emit(SearchedTodo(todos: _searchedTodos));
     }
   }
@@ -77,8 +74,8 @@ class HomeCubit extends Cubit<HomeState> {
   transcribeDescription(String audioPath) async {
     try {
       emit(TranscriptionInitialized());
-      final credentials = ServiceAccountCredentials.fromJson(await rootBundle
-          .loadString('assets/.keys/challenges-374904-4e20da4930a2.json'));
+      final credentials = ServiceAccountCredentials.fromJson(
+          await rootBundle.loadString('assets/.keys/challenges-374904-4e20da4930a2.json'));
       const scopes = [SpeechApi.cloudPlatformScope];
 
       await clientViaServiceAccount(credentials, scopes).then((httpClient) {
@@ -87,13 +84,12 @@ class HomeCubit extends Cubit<HomeState> {
           _readFileByte(audioPath).then((bytesData) async {
             String audioString = base64.encode(bytesData);
             RecognizeRequest r = RecognizeRequest();
-            RecognitionAudio audio =
-                RecognitionAudio.fromJson({'content': audioString});
+            RecognitionAudio audio = RecognitionAudio.fromJson({'content': audioString});
             r.audio = audio;
             RecognitionConfig config = RecognitionConfig.fromJson({
-              'languageCode': 'en-US',
-              "audioChannelCount": 1,
-              'sampleRateHertz': 48000,
+              "encoding": "LINEAR16",
+              "sampleRateHertz": 16000,
+              "languageCode": "en-US",
             });
             r.config = config;
             await speech.speech.recognize(r).then((results) {

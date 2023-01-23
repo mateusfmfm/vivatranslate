@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vivatranslate_mateus/app/core/constants/app_strings.dart';
 import 'package:vivatranslate_mateus/app/features/routes/app_routes.dart';

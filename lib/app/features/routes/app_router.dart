@@ -15,15 +15,15 @@ class AppRouter {
     print("[APP] GOING TO ROUTE: '${settings.name}${_withArguments()}'");
     switch (settings.name) {
       case Routes.HOME:
-        return _animateTo(HomeScreen());
+        return _animateTo(const HomeScreen());
       case Routes.ADD_TODOS:
-        return _animateTo(AddTodosScreen());
+        return _animateTo(const AddTodosScreen());
       case Routes.SHOW_TODOS:
-        return _animateTo(ShowTodosScreen());
+        return _animateTo(const ShowTodosScreen());
       case Routes.FINISHED_TODOS:
-        return _animateTo(FinishedTodosScreen());
+        return _animateTo(const FinishedTodosScreen());
       case Routes.EXTRAS:
-        return _animateTo(ExtrasScreen());
+        return _animateTo(const ExtrasScreen());
       
       default:
         throw Center(

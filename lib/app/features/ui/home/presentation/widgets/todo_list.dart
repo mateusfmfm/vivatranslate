@@ -35,6 +35,7 @@ class _TodoListState extends State<TodoList> with TickerProviderStateMixin {
       parent: _controller!,
       curve: Curves.fastOutSlowIn,
     );
+    _controller!.forward();
     searchToDoController.addListener(() {
       BlocProvider.of<HomeCubit>(context).searchTodo(searchToDoController.text);
     });
@@ -51,9 +52,6 @@ class _TodoListState extends State<TodoList> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return BlocListener<HomeCubit, HomeState>(
       listener: (context, state) {
-        if (state is ShowTodos) {
-          _controller!.forward();
-        }
         if (state is HideTodos) _controller!.reverse();
         if (state is HideAll) _controller!.reverse();
       },

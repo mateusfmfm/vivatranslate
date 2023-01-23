@@ -2,12 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vivatranslate_mateus/app/core/constants/app_strings.dart';
 import 'package:vivatranslate_mateus/app/core/theme/cubit/theme_cubit.dart';
 import 'package:vivatranslate_mateus/app/features/routes/app_routes.dart';
-import 'package:vivatranslate_mateus/app/features/ui/home/presentation/cubit/home_cubit.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/buttons/ui_floating_action_button.dart';
-import 'package:vivatranslate_mateus/app/features/ui/widgets/buttons/ui_square_transparent_button.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/loaders/ui_circular_loading.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/scaffolds/widgets/action_buttons.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/texts/custom_text.dart';
@@ -73,7 +70,7 @@ class _UIScaffoldState extends State<UIScaffold> {
           ],
         ),
       ),
-      drawer: ActionButtons(),
+      drawer: const ActionButtons(),
       backgroundColor: Theme.of(context).backgroundColor,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),

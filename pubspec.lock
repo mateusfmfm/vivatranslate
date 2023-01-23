@@ -577,7 +577,7 @@ packages:
     source: hosted
     version: "0.4.1"
   record_macos:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: record_macos
       url: "https://pub.dartlang.org"
