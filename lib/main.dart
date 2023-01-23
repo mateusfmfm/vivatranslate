@@ -4,8 +4,11 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:vivatranslate_mateus/app/core/helpers/objectbox.dart';
 import 'package:vivatranslate_mateus/app/core/theme/colors/app_colors.dart';
 import 'package:vivatranslate_mateus/app/core/theme/cubit/theme_cubit.dart';
+import 'package:vivatranslate_mateus/app/features/routes/app_router.dart';
+import 'package:vivatranslate_mateus/app/features/routes/app_routes.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/01_home_screen.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/cubit/home_cubit.dart';
+import 'package:vivatranslate_mateus/app/features/ui/widgets/scaffolds/widgets/action_buttons.dart';
 
 late ObjectBox objectBox;
 Future main() async {
@@ -29,16 +32,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = BlocProvider.of<ThemeCubit>(context, listen: true);
     return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: theme.isDark ? CustomColors.darkTheme : ThemeData.light(),
-      home: const HomeScreen(),
-      builder: (context, child) => ResponsiveWrapper.builder(
-        child,
-        maxWidth: 1080,
-        minWidth: 360,
-        breakpoints: const [ResponsiveBreakpoint.resize(1080)],
-      ),
-    );
+        title: 'Viva Translate',
+        debugShowCheckedModeBanner: false,
+        theme: theme.isDark ? CustomColors.darkTheme : ThemeData.light(),
+        home: const HomeScreen(),
+        builder: (context, child) => ResponsiveWrapper.builder(
+              child!,
+              maxWidth: 1080,
+              minWidth: 360,
+              breakpoints: const [ResponsiveBreakpoint.resize(1080)],
+            ),
+        onGenerateRoute: AppRouter().onGenerateRoute,
+        initialRoute: Routes.HOME);
   }
 }

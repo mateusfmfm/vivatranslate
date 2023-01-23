@@ -458,7 +458,7 @@ packages:
     source: hosted
     version: "2.1.0"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       url: "https://pub.dartlang.org"
@@ -598,7 +598,7 @@ packages:
     source: hosted
     version: "0.5.0"
   record_windows:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: record_windows
       url: "https://pub.dartlang.org"

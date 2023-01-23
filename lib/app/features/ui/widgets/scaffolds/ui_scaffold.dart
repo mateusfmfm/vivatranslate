@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vivatranslate_mateus/app/core/constants/app_strings.dart';
 import 'package:vivatranslate_mateus/app/core/theme/cubit/theme_cubit.dart';
+import 'package:vivatranslate_mateus/app/features/routes/app_routes.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/cubit/home_cubit.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/buttons/ui_floating_action_button.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/buttons/ui_square_transparent_button.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/loaders/ui_circular_loading.dart';
+import 'package:vivatranslate_mateus/app/features/ui/widgets/scaffolds/widgets/action_buttons.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/texts/custom_text.dart';
 
 class UIScaffold extends StatefulWidget {
@@ -46,23 +48,32 @@ class _UIScaffoldState extends State<UIScaffold> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(MediaQuery.of(context).size.width, 55),
+        
         child: AppBar(
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          flexibleSpace: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10.0),
-              child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Image.asset("assets/images/logo.png"),
-                const SizedBox(width: 8),
-                const TextMedium("Viva"),
-              ])),
+          flexibleSpace: GestureDetector(
+            onTap: () => Navigator.of(context).pushNamed(Routes.HOME),
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 56, vertical: 10.0),
+                child:
+                    Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  Image.asset("assets/images/logo.png"),
+                  const SizedBox(width: 8),
+                  const TextMedium("Viva"),
+                ])),
+          ),
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: AspectRatio(aspectRatio: .9, child: Image.asset("assets/images/brazil.png")),
+              child: AspectRatio(
+                  aspectRatio: .9,
+                  child: Image.asset("assets/images/brazil.png")),
             ),
           ],
         ),
       ),
+      drawer: ActionButtons(),
       backgroundColor: Theme.of(context).backgroundColor,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -75,19 +86,15 @@ class _UIScaffoldState extends State<UIScaffold> {
                 child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: Row(
-                        children: [
-                          Flexible(child: _actionButtons()),
-                          Flexible(
-                            child: ListView(
-                                physics: widget.scrollPhysics ?? const AlwaysScrollableScrollPhysics(),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                ),
-                                children: widget.body!),
-                          ),
-                        ],
+                      padding: const EdgeInsets.only(left: 72.0, top: 16.0),
+                      child: SizedBox(
+                        child: ListView(
+                            physics: widget.scrollPhysics ??
+                                const AlwaysScrollableScrollPhysics(),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                            ),
+                            children: widget.body!),
                       ),
                     )),
               ),
@@ -97,36 +104,5 @@ class _UIScaffoldState extends State<UIScaffold> {
         icon: Icon(theme.isDark ? Icons.light_mode : Icons.dark_mode),
       ),
     );
-  }
-
-  _actionButtons() {
-    HomeCubit homeCubit = BlocProvider.of<HomeCubit>(context, listen: true);
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0),
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          UISquareTransparentButton(
-              isLoading: false,
-              label: AppStrings.ADD_TODO,
-              onPressed: () {
-                homeCubit.hideAll();
-                homeCubit.addTodoFormShow();
-              }),
-          const SizedBox(height: 32),
-          UISquareTransparentButton(
-              isLoading: false,
-              label: AppStrings.SHOW_TODOS,
-              onPressed: () {
-                homeCubit.hideAll();
-                homeCubit.showTodoList();
-              }),
-          const SizedBox(height: 32),
-          UISquareTransparentButton(
-              isLoading: false,
-              label: AppStrings.FINISHED_TODOS,
-              onPressed: () {
-                homeCubit.hideAll();
-                homeCubit.showTodoList();
-              })
-        ]));
   }
 }

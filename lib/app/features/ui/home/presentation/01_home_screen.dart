@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vivatranslate_mateus/app/core/constants/app_strings.dart';
-import 'package:vivatranslate_mateus/app/features/ui/home/presentation/widgets/add_todo_form.dart';
-import 'package:vivatranslate_mateus/app/features/ui/home/presentation/widgets/todo_list.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/scaffolds/ui_scaffold.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/texts/custom_text.dart';
 
@@ -18,8 +16,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return UIScaffold(
       body: [
         _welcomeToYour(),
-        _addTodoForm(),
-        _todoList(),
       ],
     );
   }
@@ -29,8 +25,4 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Row(children: const [
         Flexible(child: TextMedium(AppStrings.WELCOME_TO_YOUR + AppStrings.TODO_LIST)),
       ]));
-
-  _addTodoForm() => const AddTodoForm();
-
-  _todoList() => const TodoList();
 }
