@@ -19,6 +19,7 @@ import 'package:vivatranslate_mateus/app/features/ui/widgets/buttons/ui_button.d
 import 'package:vivatranslate_mateus/app/features/ui/widgets/loaders/ui_circular_loading.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/scaffolds/ui_scaffold.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/textfields/ui_textfield.dart';
+import 'package:vivatranslate_mateus/app/features/ui/widgets/texts/custom_text.dart';
 
 class AddTodosScreen extends StatefulWidget {
   const AddTodosScreen({super.key});
@@ -35,6 +36,7 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
   DateTime? datePicked = DateTime.now();
   String? audioBase64 = "";
   bool descriptionTyped = false;
+  bool canContinue = true;
 
   final _audioRecorder = Record();
 
@@ -83,6 +85,9 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
                           descriptionTyped = true;
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) return;
+                      },
                       suffixIcon: InkWell(
                         onTap: isRecording
                             ? () async => await _stopRecord()
@@ -102,14 +107,29 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
                 UITextField(
                   hintText: "Where?",
                   controller: whereController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return;
+                  },
                 ),
                 UITextField(
                   hintText: "When?",
                   onTap: () async => await _getDate(),
                   controller: whenController,
                   datePicker: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return;
+                  },
                 ),
                 const SizedBox(height: 24),
+                if (!canContinue)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 24.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextMedium("Complete all fields.",
+                          fontColor: Colors.red),
+                    ),
+                  ),
                 BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, state) {
                     final bloc = context.read<HomeCubit>();
@@ -123,17 +143,21 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
                                 onPressed: (state is TranscriptionInitialized)
                                     ? null
                                     : () async {
-                                        await bloc.performAddTodo(Todo(
-                                            id: IDUtil().getId,
-                                            description:
-                                                descriptionController.text,
-                                            location: whereController.text,
-                                            todoDate: datePicked,
-                                            isCompleted: false,
-                                            audioBase64: descriptionTyped
-                                                ? ""
-                                                : audioBase64!,
-                                            createdAt: DateTime.now()));
+                                        if (!_validateFields()) {
+                                          return;
+                                        } else {
+                                          await bloc.performAddTodo(Todo(
+                                              id: IDUtil().getId,
+                                              description:
+                                                  descriptionController.text,
+                                              location: whereController.text,
+                                              todoDate: datePicked,
+                                              isCompleted: false,
+                                              audioBase64: descriptionTyped
+                                                  ? ""
+                                                  : audioBase64!,
+                                              createdAt: DateTime.now()));
+                                        }
                                       })),
                         const SizedBox(width: 16),
                         Flexible(
@@ -154,6 +178,15 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
             ),
           ),
         ]));
+  }
+
+  bool _validateFields() {
+    setState(() {
+      canContinue = (descriptionController.text.isNotEmpty ||
+          whereController.text.isNotEmpty ||
+          whenController.text.isNotEmpty);
+    });
+    return canContinue;
   }
 
   Future<void> _getDate() async {

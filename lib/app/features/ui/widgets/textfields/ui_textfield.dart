@@ -16,6 +16,8 @@ class UITextField extends StatefulWidget {
     this.controller,
     this.initialValue,
     this.datePicker = false,
+    this.errorText = "",
+    this.validator,
   }) : super(key: key);
 
   final Widget? preffixIcon;
@@ -28,6 +30,8 @@ class UITextField extends StatefulWidget {
   final TextEditingController? controller;
   final String? initialValue;
   final bool? datePicker;
+  final String? errorText;
+  final String? Function(String?)? validator;
 
   @override
   State<UITextField> createState() => _UITextFieldState();
@@ -43,6 +47,8 @@ class _UITextFieldState extends State<UITextField> {
         borderSide: BorderSide(
           color: fieldFocused ? Colors.transparent : CustomColors.lightGrey,
         ));
+    final errorBorder = OutlineInputBorder(
+        borderRadius: borderRadius, borderSide: BorderSide(color: Colors.red));
     return FocusScope(
       onFocusChange: (value) => setState(() {
         fieldFocused = value;
@@ -64,6 +70,7 @@ class _UITextFieldState extends State<UITextField> {
                 child: Padding(
                   padding: const EdgeInsets.all(1.0),
                   child: TextFormField(
+                    validator: widget.validator,
                     enabled: !widget.datePicker!,
                     obscureText: widget.obscureText!,
                     onChanged: widget.onChanged,
@@ -78,7 +85,7 @@ class _UITextFieldState extends State<UITextField> {
                         fillColor: Theme.of(context).backgroundColor,
                         focusedBorder: border,
                         enabledBorder: border,
-                        errorBorder: border,
+                        errorBorder: errorBorder,
                         disabledBorder: border,
                         suffixIcon: widget.suffixIcon,
                         prefixIconColor: CustomColors.lightGrey,
