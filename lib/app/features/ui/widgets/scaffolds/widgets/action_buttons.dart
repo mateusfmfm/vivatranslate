@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vivatranslate_mateus/app/core/constants/app_strings.dart';
 import 'package:vivatranslate_mateus/app/features/routes/app_routes.dart';
-import 'package:vivatranslate_mateus/app/features/ui/home/presentation/cubit/home_cubit.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/buttons/ui_square_transparent_button.dart';
 
 class ActionButtons extends StatefulWidget {
@@ -15,7 +13,6 @@ class ActionButtons extends StatefulWidget {
 class _ActionButtonsState extends State<ActionButtons> {
   @override
   Widget build(BuildContext context) {
-    HomeCubit homeCubit = BlocProvider.of<HomeCubit>(context, listen: true);
     return Material(
       color: Theme.of(context).backgroundColor,
       child: Padding(

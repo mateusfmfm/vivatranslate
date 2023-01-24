@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:vivatranslate_mateus/app/core/theme/colors/app_colors.dart';
 
 class UIDialog extends StatefulWidget {
   const UIDialog({super.key, required this.content});

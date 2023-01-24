@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -18,7 +17,6 @@ import 'package:vivatranslate_mateus/app/features/ui/widgets/dialogs/ui_dialog.d
 import 'package:vivatranslate_mateus/app/features/ui/widgets/loaders/ui_circular_loading.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/textfields/ui_textfield.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/texts/custom_text.dart';
-import 'package:path_provider/path_provider.dart';
 
 class TodoItem extends StatefulWidget {
   const TodoItem({super.key, required this.todo, required this.index});

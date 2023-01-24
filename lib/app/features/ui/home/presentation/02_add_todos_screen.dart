@@ -196,6 +196,7 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
     final finalPath = path!.replaceAll("\\", "/");
     isRecording = await _audioRecorder.isRecording();
     audioBase64 = base64Encode(await File(finalPath).readAsBytes());
+    log(finalPath);
     setState(() {});
     await BlocProvider.of<HomeCubit>(context).transcribeDescription(finalPath);
   }
