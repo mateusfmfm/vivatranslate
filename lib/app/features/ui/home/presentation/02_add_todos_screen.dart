@@ -34,6 +34,7 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
   TextEditingController whenController = TextEditingController();
   DateTime? datePicked = DateTime.now();
   String? audioBase64 = "";
+  bool descriptionTyped = false;
 
   final _audioRecorder = Record();
 
@@ -57,8 +58,14 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
         listener: (context, state) {
           if (state is PerformingAddTodoSuccess)
             Navigator.of(context).pushNamed(Routes.SHOW_TODOS);
-          if (state is TranscriptionSuccessful)
-            descriptionController.text = state.result!;
+          if (state is TranscriptionSuccessful) {
+            setState(() {
+              descriptionTyped = false;
+              descriptionController.text = "";
+              descriptionController.text = state.result!;
+            });
+          }
+          ;
         },
         child: UIScaffold(title: "Add ToDo", body: [
           Form(
@@ -71,6 +78,11 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
                     return UITextField(
                       hintText: "Description",
                       controller: descriptionController,
+                      onChanged: (text) {
+                        setState(() {
+                          descriptionTyped = true;
+                        });
+                      },
                       suffixIcon: InkWell(
                         onTap: isRecording
                             ? () async => await _stopRecord()
@@ -118,7 +130,9 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
                                             location: whereController.text,
                                             todoDate: datePicked,
                                             isCompleted: false,
-                                            audioBase64: audioBase64!,
+                                            audioBase64: descriptionTyped
+                                                ? ""
+                                                : audioBase64!,
                                             createdAt: DateTime.now()));
                                       })),
                         const SizedBox(width: 16),

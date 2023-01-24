@@ -119,7 +119,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       emit(TranscriptionInitialized());
       final credentials = ServiceAccountCredentials.fromJson(await rootBundle
-          .loadString('assets/.keys/challenges-374904-4e20da4930a2.json'));
+          .loadString('keys/challenges-374904-4e20da4930a2.json'));
       const scopes = [SpeechApi.cloudPlatformScope];
 
       await clientViaServiceAccount(credentials, scopes).then((httpClient) {

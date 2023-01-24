@@ -22,26 +22,25 @@ class _ActionButtonsState extends State<ActionButtons> {
           padding: const EdgeInsets.symmetric(vertical: 64.0, horizontal: 16),
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               UISquareTransparentButton(
                   isLoading: false,
                   label: AppStrings.ADD_TODO,
-                  onPressed: () => Navigator.of(context).pushNamed(Routes.ADD_TODOS)),
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(Routes.ADD_TODOS)),
               const SizedBox(height: 32),
               UISquareTransparentButton(
                   isLoading: false,
                   label: AppStrings.SHOW_TODOS,
-                  onPressed: () => Navigator.of(context).pushNamed(Routes.SHOW_TODOS)),
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(Routes.SHOW_TODOS)),
               const SizedBox(height: 32),
               UISquareTransparentButton(
                   isLoading: false,
                   label: AppStrings.FINISHED_TODOS,
-                  onPressed: () => Navigator.of(context).pushNamed(Routes.FINISHED_TODOS)),
-              const SizedBox(height: 32),
-              UISquareTransparentButton(
-                  isLoading: false,
-                  label: AppStrings.EXTRAS,
-                  onPressed: () => Navigator.of(context).pushNamed(Routes.EXTRAS)),
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(Routes.FINISHED_TODOS)),
             ]),
           )),
     );

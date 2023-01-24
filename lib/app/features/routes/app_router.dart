@@ -4,7 +4,6 @@ import 'package:vivatranslate_mateus/app/features/ui/home/presentation/01_home_s
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/02_add_todos_screen.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/03_show_todos_screen.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/04_finished_todos_screen.dart';
-import 'package:vivatranslate_mateus/app/features/ui/home/presentation/05_extras_screen.dart';
 
 class AppRouter {
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -22,9 +21,7 @@ class AppRouter {
         return _animateTo(const ShowTodosScreen());
       case Routes.FINISHED_TODOS:
         return _animateTo(const FinishedTodosScreen());
-      case Routes.EXTRAS:
-        return _animateTo(const ExtrasScreen());
-      
+
       default:
         throw Center(
             child: Text("There's no page defined for route ${settings.name}"));

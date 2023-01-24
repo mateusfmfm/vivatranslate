@@ -38,6 +38,7 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
   TextEditingController whereController = TextEditingController();
   TextEditingController whenController = TextEditingController();
   DateTime? datePicked = DateTime.now();
+  bool descriptionTyped = false;
 
   final audioPlayer = AudioPlayer();
   bool isPlaying = false;
@@ -75,8 +76,13 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
     final fileAudioUtil = FileAudioUtil(base64: widget.todo.audioBase64);
     return BlocListener<HomeCubit, HomeState>(
       listener: (context, state) {
-        if (state is TranscriptionSuccessful)
-          descriptionController.text = state.result!;
+        if (state is TranscriptionSuccessful) {
+          setState(() {
+            descriptionTyped = false;
+            descriptionController.text = "";
+            descriptionController.text = state.result!;
+          });
+        }
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 16.0),
@@ -179,6 +185,11 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
                                 return UITextField(
                                   hintText: "Description",
                                   controller: descriptionController,
+                                  onChanged: (text) {
+                                    setState(() {
+                                      descriptionTyped = true;
+                                    });
+                                  },
                                   suffixIcon: InkWell(
                                     onTap: isRecording
                                         ? () async => await _stopRecord()
@@ -221,9 +232,9 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
                                                   context)
                                               .performUpdateTodo(
                                                   todo: widget.todo,
-                                                  audioBase64: audioBase64 == ""
-                                                      ? null
-                                                      : audioBase64,
+                                                  audioBase64: descriptionTyped
+                                                      ? ""
+                                                      : audioBase64!,
                                                   description:
                                                       descriptionController
                                                           .text,

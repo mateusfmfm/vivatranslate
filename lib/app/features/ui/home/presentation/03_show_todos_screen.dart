@@ -84,7 +84,9 @@ class _ShowTodosScreenState extends State<ShowTodosScreen> {
                                         ? bloc.searchedTodos.length
                                         : bloc.todos.length,
                                     itemBuilder: ((context, index) {
-                                      final data = bloc.todos[index];
+                                      final data = (state is SearchedTodo)
+                                          ? bloc.searchedTodos[index]
+                                          : bloc.todos[index];
                                       return TodoItem(
                                           index: index,
                                           todo: Todo(

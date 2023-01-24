@@ -5,6 +5,4 @@ abstract class Routes {
   static const ADD_TODOS = '/addTodos';
   static const SHOW_TODOS = '/showTodos';
   static const FINISHED_TODOS = '/finishedTodos';
-  static const EXTRAS = '/extras';
- 
 }
