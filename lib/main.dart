@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:vivatranslate_mateus/app/core/helpers/bloc_observer.dart';
 import 'package:vivatranslate_mateus/app/core/helpers/objectbox.dart';
 import 'package:vivatranslate_mateus/app/core/theme/colors/app_colors.dart';
 import 'package:vivatranslate_mateus/app/core/theme/cubit/theme_cubit.dart';
@@ -13,6 +14,7 @@ late ObjectBox objectBox;
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   objectBox = await ObjectBox.init();
+  Bloc.observer = AppBlocObserver();
   runApp(
     MultiBlocProvider(
       providers: [

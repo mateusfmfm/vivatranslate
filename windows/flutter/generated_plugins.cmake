@@ -4,7 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_windows
-  objectbox_sync_flutter_libs
+  objectbox_flutter_libs
   permission_handler_windows
   record_windows
 )

@@ -12,7 +12,7 @@ import 'dart:typed_data';
 import 'package:flat_buffers/flat_buffers.dart' as fb;
 import 'package:objectbox/internal.dart'; // generated code can access "internal" functionality
 import 'package:objectbox/objectbox.dart';
-import 'package:objectbox_sync_flutter_libs/objectbox_sync_flutter_libs.dart';
+import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'app/features/ui/home/data/todo_model.dart';
 
@@ -20,48 +20,54 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <ModelEntity>[
   ModelEntity(
-      id: const IdUid(1, 8603485986068716409),
+      id: const IdUid(1, 2664244067703481715),
       name: 'Todo',
-      lastPropertyId: const IdUid(8, 6900223075612399274),
+      lastPropertyId: const IdUid(9, 1784929414750214419),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 7826969740895612372),
-            name: 'id',
+            id: const IdUid(1, 4937205993485170806),
+            name: 'objid',
             type: 6,
             flags: 1),
         ModelProperty(
-            id: const IdUid(2, 5057346035688916435),
+            id: const IdUid(2, 6613286334663574097),
+            name: 'id',
+            type: 9,
+            flags: 2080,
+            indexId: const IdUid(1, 278043360917582518)),
+        ModelProperty(
+            id: const IdUid(3, 7107410756930000502),
             name: 'description',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 5692763107412467226),
+            id: const IdUid(4, 6570300311167112112),
             name: 'location',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(4, 300496279546851944),
+            id: const IdUid(5, 5803225157552585035),
             name: 'isCompleted',
             type: 1,
             flags: 0),
         ModelProperty(
-            id: const IdUid(5, 2457157229254666075),
+            id: const IdUid(6, 5428934789597174588),
             name: 'createdAt',
             type: 10,
             flags: 0),
         ModelProperty(
-            id: const IdUid(6, 3815763942776790256),
+            id: const IdUid(7, 4152449942655205026),
             name: 'todoDate',
             type: 10,
             flags: 0),
         ModelProperty(
-            id: const IdUid(7, 5233719317109496273),
+            id: const IdUid(8, 8274835901153026420),
             name: 'audioBase64',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(8, 6900223075612399274),
+            id: const IdUid(9, 1784929414750214419),
             name: 'audioPath',
             type: 9,
             flags: 0)
@@ -90,8 +96,8 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(1, 8603485986068716409),
-      lastIndexId: const IdUid(0, 0),
+      lastEntityId: const IdUid(1, 2664244067703481715),
+      lastIndexId: const IdUid(1, 278043360917582518),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
@@ -107,11 +113,13 @@ ModelDefinition getObjectBoxModel() {
         model: _entities[0],
         toOneRelations: (Todo object) => [],
         toManyRelations: (Todo object) => {},
-        getId: (Todo object) => object.id,
+        getId: (Todo object) => object.objid,
         setId: (Todo object, int id) {
-          object.id = id;
+          object.objid = id;
         },
         objectToFB: (Todo object, fb.Builder fbb) {
+          final idOffset =
+              object.id == null ? null : fbb.writeString(object.id!);
           final descriptionOffset = object.description == null
               ? null
               : fbb.writeString(object.description!);
@@ -124,33 +132,36 @@ ModelDefinition getObjectBoxModel() {
           final audioPathOffset = object.audioPath == null
               ? null
               : fbb.writeString(object.audioPath!);
-          fbb.startTable(9);
-          fbb.addInt64(0, object.id);
-          fbb.addOffset(1, descriptionOffset);
-          fbb.addOffset(2, locationOffset);
-          fbb.addBool(3, object.isCompleted);
-          fbb.addInt64(4, object.createdAt?.millisecondsSinceEpoch);
-          fbb.addInt64(5, object.todoDate?.millisecondsSinceEpoch);
-          fbb.addOffset(6, audioBase64Offset);
-          fbb.addOffset(7, audioPathOffset);
+          fbb.startTable(10);
+          fbb.addInt64(0, object.objid);
+          fbb.addOffset(1, idOffset);
+          fbb.addOffset(2, descriptionOffset);
+          fbb.addOffset(3, locationOffset);
+          fbb.addBool(4, object.isCompleted);
+          fbb.addInt64(5, object.createdAt?.millisecondsSinceEpoch);
+          fbb.addInt64(6, object.todoDate?.millisecondsSinceEpoch);
+          fbb.addOffset(7, audioBase64Offset);
+          fbb.addOffset(8, audioPathOffset);
           fbb.finish(fbb.endTable());
-          return object.id;
+          return object.objid;
         },
         objectFromFB: (Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
           final createdAtValue =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 12);
-          final todoDateValue =
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 14);
+          final todoDateValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 16);
           final object = Todo(
-              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
-              description: const fb.StringReader(asciiOptimization: true)
+              objid: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              id: const fb.StringReader(asciiOptimization: true)
                   .vTableGetNullable(buffer, rootOffset, 6),
-              location: const fb.StringReader(asciiOptimization: true)
+              description: const fb.StringReader(asciiOptimization: true)
                   .vTableGetNullable(buffer, rootOffset, 8),
-              isCompleted: const fb.BoolReader()
+              location: const fb.StringReader(asciiOptimization: true)
                   .vTableGetNullable(buffer, rootOffset, 10),
+              isCompleted: const fb.BoolReader()
+                  .vTableGetNullable(buffer, rootOffset, 12),
               createdAt: createdAtValue == null
                   ? null
                   : DateTime.fromMillisecondsSinceEpoch(createdAtValue),
@@ -158,9 +169,9 @@ ModelDefinition getObjectBoxModel() {
                   ? null
                   : DateTime.fromMillisecondsSinceEpoch(todoDateValue),
               audioBase64: const fb.StringReader(asciiOptimization: true)
-                  .vTableGetNullable(buffer, rootOffset, 16),
+                  .vTableGetNullable(buffer, rootOffset, 18),
               audioPath: const fb.StringReader(asciiOptimization: true)
-                  .vTableGetNullable(buffer, rootOffset, 18));
+                  .vTableGetNullable(buffer, rootOffset, 20));
 
           return object;
         })
@@ -171,33 +182,36 @@ ModelDefinition getObjectBoxModel() {
 
 /// [Todo] entity fields to define ObjectBox queries.
 class Todo_ {
+  /// see [Todo.objid]
+  static final objid = QueryIntegerProperty<Todo>(_entities[0].properties[0]);
+
   /// see [Todo.id]
-  static final id = QueryIntegerProperty<Todo>(_entities[0].properties[0]);
+  static final id = QueryStringProperty<Todo>(_entities[0].properties[1]);
 
   /// see [Todo.description]
   static final description =
-      QueryStringProperty<Todo>(_entities[0].properties[1]);
+      QueryStringProperty<Todo>(_entities[0].properties[2]);
 
   /// see [Todo.location]
-  static final location = QueryStringProperty<Todo>(_entities[0].properties[2]);
+  static final location = QueryStringProperty<Todo>(_entities[0].properties[3]);
 
   /// see [Todo.isCompleted]
   static final isCompleted =
-      QueryBooleanProperty<Todo>(_entities[0].properties[3]);
+      QueryBooleanProperty<Todo>(_entities[0].properties[4]);
 
   /// see [Todo.createdAt]
   static final createdAt =
-      QueryIntegerProperty<Todo>(_entities[0].properties[4]);
+      QueryIntegerProperty<Todo>(_entities[0].properties[5]);
 
   /// see [Todo.todoDate]
   static final todoDate =
-      QueryIntegerProperty<Todo>(_entities[0].properties[5]);
+      QueryIntegerProperty<Todo>(_entities[0].properties[6]);
 
   /// see [Todo.audioBase64]
   static final audioBase64 =
-      QueryStringProperty<Todo>(_entities[0].properties[6]);
+      QueryStringProperty<Todo>(_entities[0].properties[7]);
 
   /// see [Todo.audioPath]
   static final audioPath =
-      QueryStringProperty<Todo>(_entities[0].properties[7]);
+      QueryStringProperty<Todo>(_entities[0].properties[8]);
 }

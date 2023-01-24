@@ -4,48 +4,55 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:8603485986068716409",
-      "lastPropertyId": "8:6900223075612399274",
+      "id": "1:2664244067703481715",
+      "lastPropertyId": "9:1784929414750214419",
       "name": "Todo",
       "properties": [
         {
-          "id": "1:7826969740895612372",
-          "name": "id",
+          "id": "1:4937205993485170806",
+          "name": "objid",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:5057346035688916435",
+          "id": "2:6613286334663574097",
+          "name": "id",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "1:278043360917582518"
+        },
+        {
+          "id": "3:7107410756930000502",
           "name": "description",
           "type": 9
         },
         {
-          "id": "3:5692763107412467226",
+          "id": "4:6570300311167112112",
           "name": "location",
           "type": 9
         },
         {
-          "id": "4:300496279546851944",
+          "id": "5:5803225157552585035",
           "name": "isCompleted",
           "type": 1
         },
         {
-          "id": "5:2457157229254666075",
+          "id": "6:5428934789597174588",
           "name": "createdAt",
           "type": 10
         },
         {
-          "id": "6:3815763942776790256",
+          "id": "7:4152449942655205026",
           "name": "todoDate",
           "type": 10
         },
         {
-          "id": "7:5233719317109496273",
+          "id": "8:8274835901153026420",
           "name": "audioBase64",
           "type": 9
         },
         {
-          "id": "8:6900223075612399274",
+          "id": "9:1784929414750214419",
           "name": "audioPath",
           "type": 9
         }
@@ -53,8 +60,8 @@
       "relations": []
     }
   ],
-  "lastEntityId": "1:8603485986068716409",
-  "lastIndexId": "0:0",
+  "lastEntityId": "1:2664244067703481715",
+  "lastIndexId": "1:278043360917582518",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

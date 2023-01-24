@@ -81,10 +81,13 @@ class _TodoListState extends State<TodoList> {
                                   return TodoItem(
                                       index: index,
                                       todo: Todo(
+                                          objid: data.objid,
+                                          id: data.id,
                                           description: data.description,
                                           createdAt: data.createdAt,
                                           location: data.location,
-                                          todoDate: data.todoDate));
+                                          todoDate: data.todoDate,
+                                          audioBase64: data.audioBase64));
                                 }),
                               );
                             }

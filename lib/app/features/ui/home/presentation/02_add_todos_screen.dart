@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'package:record/record.dart';
 import 'package:vivatranslate_mateus/app/core/helpers/app_persmissions.dart';
+import 'package:vivatranslate_mateus/app/core/helpers/id_util.dart';
 import 'package:vivatranslate_mateus/app/features/routes/app_routes.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/data/todo_model.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/cubit/home_cubit.dart';
@@ -111,10 +112,12 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
                                     ? null
                                     : () async {
                                         await bloc.performAddTodo(Todo(
+                                            id: IDUtil().getId,
                                             description:
                                                 descriptionController.text,
                                             location: whereController.text,
                                             todoDate: datePicked,
+                                            isCompleted: false,
                                             audioBase64: audioBase64!,
                                             createdAt: DateTime.now()));
                                       })),
@@ -175,11 +178,11 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
   }
 
   _stopRecord() async {
-    var finalPath = await _audioRecorder.stop();
+    final path = await _audioRecorder.stop();
+    final finalPath = path!.replaceAll("\\", "/");
     isRecording = await _audioRecorder.isRecording();
-    audioBase64 = base64Encode(await File(finalPath!).readAsBytes());
+    audioBase64 = base64Encode(await File(finalPath).readAsBytes());
     setState(() {});
-    await BlocProvider.of<HomeCubit>(context)
-        .transcribeDescription(finalPath.replaceAll("\\", "/"));
+    await BlocProvider.of<HomeCubit>(context).transcribeDescription(finalPath);
   }
 }

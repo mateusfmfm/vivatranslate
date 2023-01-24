@@ -19,7 +19,7 @@ class HomeCubit extends Cubit<HomeState> {
   List<Todo> _todos = [];
   List<Todo> get todos => _todos;
 
-  final List<Todo> _finishedTodos = [];
+  List<Todo> _finishedTodos = [];
   List<Todo> get finishedTodos => _finishedTodos;
 
   List<Todo> _searchedTodos = [];
@@ -29,6 +29,7 @@ class HomeCubit extends Cubit<HomeState> {
   String get audioTranscription => _audioTranscription;
 
   setTodos(List<Todo> storedTodos) => _todos = storedTodos;
+  setFinishedTodos(List<Todo> finishedTodos) => _finishedTodos = finishedTodos;
 
   searchTodo(String value) {
     emit(SearchingTodo());
@@ -45,7 +46,6 @@ class HomeCubit extends Cubit<HomeState> {
 
   performAddTodo(Todo todo) async {
     try {
-      emit(AddTodoFormHide());
       objectBox.insertTodo(todo);
 
       await Future.delayed(const Duration(milliseconds: 300));
@@ -59,12 +59,31 @@ class HomeCubit extends Cubit<HomeState> {
   performDeleteTodo(Todo todo) async {
     try {
       emit(PerformingDeleteToDo());
-      objectBox.deleteTodo(todo.id);
+      objectBox.deleteTodo(todo.id!);
       await Future.delayed(const Duration(milliseconds: 300));
       emit(PerformingDeleteToDoSucccess(todos: _todos));
     } catch (e) {
       print('$e');
       emit(PerformingAddTodoFailed());
+    }
+  }
+
+  performFinishTodo(Todo todo) async {
+    try {
+      final updatedTodo = Todo(
+          createdAt: todo.createdAt,
+          description: todo.description,
+          id: todo.id,
+          objid: todo.objid,
+          audioBase64: todo.audioBase64,
+          isCompleted: true);
+      emit(PerformingFinishTodo());
+      objectBox.finishTodo(updatedTodo);
+      await Future.delayed(const Duration(milliseconds: 300));
+      emit(PerformingFinishTodoSuccesful(todos: _todos));
+    } catch (e) {
+      debugPrint('$e');
+      emit(PerformingFinishTodoFailed());
     }
   }
 

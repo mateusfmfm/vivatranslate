@@ -1,10 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:objectbox/objectbox.dart';
+import 'package:vivatranslate_mateus/app/core/helpers/id_util.dart';
 
 @Entity()
 class Todo {
-  int id;
+  @Id()
+  int objid;
+
+  @Unique()
+  String? id;
 
   String? description;
   String? location;
@@ -15,7 +20,8 @@ class Todo {
   String? audioPath;
 
   Todo({
-    this.id = 0,
+    this.objid = 0,
+    required this.id,
     required this.description,
     this.location,
     this.isCompleted = false,

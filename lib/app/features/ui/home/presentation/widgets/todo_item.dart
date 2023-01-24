@@ -3,14 +3,19 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:record/record.dart';
+import 'package:vivatranslate_mateus/app/core/helpers/file_audio_util.dart';
 import 'package:vivatranslate_mateus/app/core/theme/colors/app_colors.dart';
-import 'package:vivatranslate_mateus/app/core/utils/date_util.dart';
+import 'package:vivatranslate_mateus/app/core/helpers/date_util.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/data/todo_model.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/cubit/home_cubit.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/buttons/ui_button.dart';
+import 'package:vivatranslate_mateus/app/features/ui/widgets/dialogs/ui_dialog.dart';
+import 'package:vivatranslate_mateus/app/features/ui/widgets/loaders/ui_circular_loading.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/textfields/ui_textfield.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/texts/custom_text.dart';
 import 'package:path_provider/path_provider.dart';
@@ -36,6 +41,12 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
 
   final audioPlayer = AudioPlayer();
   bool isPlaying = false;
+  String? audioBase64 = "";
+
+  final _audioRecorder = Record();
+
+  String appDocPath = "";
+  bool isRecording = false;
 
   @override
   void initState() {
@@ -48,17 +59,20 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
       parent: _controller!,
       curve: Curves.fastOutSlowIn,
     );
+
     descriptionController.text = widget.todo.description!;
     whereController.text = widget.todo.location!;
     whenController.text = AppDateUtil.formatDate(widget.todo.todoDate!);
 
     audioPlayer.onPlayerStateChanged.listen((state) {
       isPlaying = state == PlayerState.playing;
+      setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final fileAudioUtil = FileAudioUtil(base64: widget.todo.audioBase64);
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Container(
@@ -89,24 +103,20 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
                                           child: TextMedium(
                                               "${widget.index! + 1}. ${widget.todo.description}")),
                                       const SizedBox(width: 8),
-                                      widget.todo.audioBase64 == ""
+                                      widget.todo.audioBase64!.isEmpty
                                           ? Container()
                                           : GestureDetector(
                                               onTap: () async {
                                                 if (isPlaying) {
                                                   await audioPlayer.pause();
                                                 } else {
-                                                  log(widget.todo.audioBase64!);
-                                                  final bytes = base64Decode(
-                                                      widget.todo.audioBase64!);
-                                                  final tempDir =
-                                                      await getTemporaryDirectory();
-                                                  final file = File(
-                                                      "${tempDir.path}.tempFile.flac");
-                                                  await file
-                                                      .writeAsBytes(bytes);
-                                                  await audioPlayer
-                                                      .setSourceUrl(file.path);
+                                                  final File file =
+                                                      await fileAudioUtil
+                                                          .getFileFromBase64();
+
+                                                  await audioPlayer.play(
+                                                      DeviceFileSource(
+                                                          file.path));
                                                 }
                                               },
                                               child: Icon(isPlaying
@@ -129,14 +139,25 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
                         Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              GestureDetector(
-                                  onTap: () async =>
-                                      await _controller!.forward(),
-                                  child: const Icon(Icons.edit)),
+                              if (!widget.todo.isCompleted!)
+                                GestureDetector(
+                                    onTap: () async =>
+                                        await _controller!.forward(),
+                                    child: const Icon(Icons.edit)),
                               const SizedBox(height: 16),
-                              GestureDetector(
-                                  child: const Icon(
-                                      Icons.check_box_outline_blank)),
+                              BlocBuilder<HomeCubit, HomeState>(
+                                builder: (context, state) {
+                                  final bloc = context.read<HomeCubit>();
+                                  return GestureDetector(
+                                      onTap: () async => await showDialog(
+                                          context: context,
+                                          builder: ((context) =>
+                                              _confirmFinishTodo())),
+                                      child: Icon(widget.todo.isCompleted!
+                                          ? Icons.check_box
+                                          : Icons.check_box_outline_blank));
+                                },
+                              ),
                             ]),
                       ]),
                       SizeTransition(
@@ -144,18 +165,39 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
                         child:
                             Column(mainAxisSize: MainAxisSize.min, children: [
                           const SizedBox(height: 16),
-                          UITextField(
-                            hintText: "Description",
-                            controller: descriptionController,
+                          BlocBuilder<HomeCubit, HomeState>(
+                            builder: (context, state) {
+                              return UITextField(
+                                hintText: "Description",
+                                controller: descriptionController,
+                                suffixIcon: InkWell(
+                                  onTap: isRecording
+                                      ? () async => await _stopRecord()
+                                      : () async => await _startRecord(),
+                                  child: (state is TranscriptionInitialized)
+                                      ? const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: UICircularLoading(),
+                                        )
+                                      : isRecording
+                                          ? const Icon(Icons.pause,
+                                              color: Colors.red)
+                                          : const Icon(Icons.mic),
+                                ),
+                              );
+                            },
                           ),
                           UITextField(
-                              hintText: "Where", controller: whereController),
+                            hintText: "Where?",
+                            controller: whereController,
+                          ),
                           UITextField(
-                            hintText: "When",
+                            hintText: "When?",
+                            onTap: () async => await _getDate(),
                             controller: whenController,
                             datePicker: true,
-                            onTap: () async => await _getDate(),
                           ),
+                          const SizedBox(height: 24),
                           const SizedBox(height: 16),
                           Row(
                             children: [
@@ -201,6 +243,40 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
     );
   }
 
+  _confirmFinishTodo() => UIDialog(content: [
+        TextRegular("Do you want to finish this ToDo?"),
+        SizedBox(height: 8),
+        TextLight(widget.todo.description, fontStyle: FontStyle.italic),
+        SizedBox(height: 32),
+        BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            final bloc = context.read<HomeCubit>();
+            return Row(
+              children: [
+                Flexible(
+                    flex: 1,
+                    child: UIButton(
+                        label: "Confirm",
+                        isLoading: (state is PerformingFinishTodo),
+                        onPressed: () async {
+                          await bloc.performFinishTodo(widget.todo);
+                          Navigator.of(context).pop();
+                        })),
+                const SizedBox(width: 16),
+                Flexible(
+                    flex: 1,
+                    child: UIButton(
+                      label: "Cancel",
+                      isLoading: false,
+                      secondary: true,
+                      onPressed: () => Navigator.of(context).pop(),
+                    ))
+              ],
+            );
+          },
+        ),
+      ]);
+
   Future<void> _getDate() async {
     datePicked = await showDatePicker(
         context: context,
@@ -210,5 +286,38 @@ class _TodoItemState extends State<TodoItem> with TickerProviderStateMixin {
 
     whenController.text = DateFormat.yMMMd().format(datePicked!);
     setState(() {});
+  }
+
+  _startRecord() async {
+    try {
+      if (await _audioRecorder.hasPermission()) {
+        final isSupported = await _audioRecorder.isEncoderSupported(
+          AudioEncoder.aacLc,
+        );
+        if (kDebugMode) {
+          print('${AudioEncoder.aacLc.name} supported: $isSupported');
+        }
+        String pathTo = "$appDocPath${DateTime.now().millisecondsSinceEpoch}";
+        print(pathTo);
+        await _audioRecorder.start(
+            path: pathTo,
+            samplingRate: 16000,
+            numChannels: 1,
+            encoder: AudioEncoder.flac);
+        isRecording = await _audioRecorder.isRecording();
+        setState(() {});
+      }
+    } catch (e) {
+      if (kDebugMode) print(e);
+    }
+  }
+
+  _stopRecord() async {
+    var finalPath = await _audioRecorder.stop();
+    isRecording = await _audioRecorder.isRecording();
+    audioBase64 = base64Encode(await File(finalPath!).readAsBytes());
+    setState(() {});
+    await BlocProvider.of<HomeCubit>(context)
+        .transcribeDescription(finalPath.replaceAll("\\", "/"));
   }
 }

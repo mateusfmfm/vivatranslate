@@ -10,8 +10,6 @@ abstract class HomeState extends Equatable {
 
 class HomeInitial extends HomeState {}
 
-class HideAll extends HomeState {}
-
 class SearchingTodo extends HomeState {}
 
 class SearchedTodo extends HomeState {
@@ -21,10 +19,6 @@ class SearchedTodo extends HomeState {
   @override
   List<Object> get props => [todos];
 }
-
-class AddTodoFormShow extends HomeState {}
-
-class AddTodoFormHide extends HomeState {}
 
 class PerformingAddTodo extends HomeState {}
 
@@ -50,10 +44,6 @@ class PerformingDeleteToDoSucccess extends HomeState {
 
 class PerformingDeleteToDoFailed extends HomeState {}
 
-class ShowTodos extends HomeState {}
-
-class HideTodos extends HomeState {}
-
 class TranscriptionInitialized extends HomeState {}
 
 class TranscriptionSuccessful extends HomeState {
@@ -66,3 +56,27 @@ class TranscriptionFailed extends HomeState {}
 class AudioLoading extends HomeState {}
 
 class AudioLoaded extends HomeState {}
+
+class PerformingUpdateTodo extends HomeState {}
+
+class PerformingUpdateTodoSuccesful extends HomeState {
+  final List<Todo> todos;
+  const PerformingUpdateTodoSuccesful({required this.todos});
+
+  @override
+  List<Object> get props => [todos];
+}
+
+class PerformingUpdateTodoFailed extends HomeState {}
+
+class PerformingFinishTodo extends HomeState {}
+
+class PerformingFinishTodoSuccesful extends HomeState {
+  final List<Todo> todos;
+  const PerformingFinishTodoSuccesful({required this.todos});
+
+  @override
+  List<Object> get props => [todos];
+}
+
+class PerformingFinishTodoFailed extends HomeState {}

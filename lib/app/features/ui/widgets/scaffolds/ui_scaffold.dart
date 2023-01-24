@@ -45,7 +45,6 @@ class _UIScaffoldState extends State<UIScaffold> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(MediaQuery.of(context).size.width, 55),
-        
         child: AppBar(
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           flexibleSpace: GestureDetector(
@@ -53,12 +52,13 @@ class _UIScaffoldState extends State<UIScaffold> {
             child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 56, vertical: 10.0),
-                child:
-                    Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  Image.asset("assets/images/logo.png"),
-                  const SizedBox(width: 8),
-                  const TextMedium("Viva"),
-                ])),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset("assets/images/logo.png"),
+                      const SizedBox(width: 8),
+                      const TextMedium("Viva"),
+                    ])),
           ),
           actions: [
             Padding(
@@ -75,9 +75,11 @@ class _UIScaffoldState extends State<UIScaffold> {
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: widget.isPageLoading!
-            ? const Padding(
-                padding: EdgeInsets.only(bottom: 72.0),
-                child: UICircularLoading(),
+            ? Center(
+                child: const Padding(
+                  padding: EdgeInsets.only(bottom: 72.0),
+                  child: UICircularLoading(),
+                ),
               )
             : SafeArea(
                 child: SizedBox(
