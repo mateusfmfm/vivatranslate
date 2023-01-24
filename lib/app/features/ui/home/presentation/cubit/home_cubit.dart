@@ -76,7 +76,8 @@ class HomeCubit extends Cubit<HomeState> {
           id: todo.id,
           objid: todo.objid,
           audioBase64: todo.audioBase64,
-          isCompleted: true);
+          isCompleted: true,
+          location: todo.location, todoDate: todo.todoDate);
       emit(PerformingFinishTodo());
       objectBox.finishTodo(updatedTodo);
       await Future.delayed(const Duration(milliseconds: 300));
