@@ -114,7 +114,7 @@ class _FinishedTodoItemState extends State<FinishedTodoItem> {
                                         fontSize: 14,
                                         fontColor: CustomColors.grey),
                                 ])),
-                        Icon(Icons.check_box),
+                        Icon(Icons.check_box, color: CustomColors.primaryBlue),
                       ])
                     ])))));
   }

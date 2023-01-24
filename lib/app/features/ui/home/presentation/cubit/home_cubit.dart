@@ -77,7 +77,8 @@ class HomeCubit extends Cubit<HomeState> {
           objid: todo.objid,
           audioBase64: todo.audioBase64,
           isCompleted: true,
-          location: todo.location, todoDate: todo.todoDate);
+          location: todo.location,
+          todoDate: todo.todoDate);
       emit(PerformingFinishTodo());
       objectBox.finishTodo(updatedTodo);
       await Future.delayed(const Duration(milliseconds: 300));
@@ -85,6 +86,32 @@ class HomeCubit extends Cubit<HomeState> {
     } catch (e) {
       debugPrint('$e');
       emit(PerformingFinishTodoFailed());
+    }
+  }
+
+  performUpdateTodo(
+      {Todo? todo,
+      String? description,
+      String? audioBase64,
+      String? location,
+      DateTime? todoDate}) async {
+    try {
+      final updatedTodo = Todo(
+          createdAt: todo!.createdAt,
+          description: description ?? todo.description,
+          id: todo.id,
+          objid: todo.objid,
+          audioBase64: audioBase64 ?? todo.audioBase64,
+          isCompleted: todo.isCompleted,
+          location: location ?? todo.location,
+          todoDate: todoDate ?? todo.todoDate);
+      emit(PerformingUpdateTodo());
+      objectBox.updateTodo(updatedTodo);
+      await Future.delayed(const Duration(milliseconds: 300));
+      emit(PerformingUpdateTodoSuccesful(todos: _todos));
+    } catch (e) {
+      debugPrint('$e');
+      emit(PerformingUpdateTodoFailed());
     }
   }
 

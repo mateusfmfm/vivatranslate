@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/data/todo_model.dart';
@@ -24,7 +23,7 @@ class _FinishedTodosScreenState extends State<FinishedTodosScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return UIScaffold(body: [
+    return UIScaffold(title: "Finished ToDos", body: [
       BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           final bloc = context.read<HomeCubit>();

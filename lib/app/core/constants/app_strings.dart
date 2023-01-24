@@ -9,4 +9,6 @@ class AppStrings {
   static const EXTRAS = "Extras";
 
   static const WELCOME_TO_YOUR = "Welcome to your ";
+  static const LETS_RUN_PYTHON =
+      "Let's run Python code inside our Flutter/Dart project!\nTouch or click at the Python logo above to change the color.";
 }

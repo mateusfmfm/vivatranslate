@@ -21,11 +21,10 @@ class ObjectBox {
   int updateTodo(Todo todo) => _todoBox.put(todo, mode: PutMode.update);
   int finishTodo(Todo todo) => _todoBox.put(todo, mode: PutMode.update);
 
-  Stream<List<Todo>> getTodos() =>
-      _todoBox.query().watch(triggerImmediately: true).map((query) => query
-          .find()
-          .where((element) => element.isCompleted == false)
-          .toList());
+  Stream<List<Todo>> getTodos() => _todoBox
+      .query()
+      .watch(triggerImmediately: true)
+      .map((query) => query.find().toList());
 
   Stream<List<Todo>> getFinishedTodos() =>
       _todoBox.query().watch(triggerImmediately: true).map((query) => query

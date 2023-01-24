@@ -60,7 +60,7 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
           if (state is TranscriptionSuccessful)
             descriptionController.text = state.result!;
         },
-        child: UIScaffold(body: [
+        child: UIScaffold(title: "Add ToDo", body: [
           Form(
             key: _formKey,
             child: Padding(
@@ -146,7 +146,7 @@ class _AddTodosScreenState extends State<AddTodosScreen> {
     datePicked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2022),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2025));
 
     whenController.text = DateFormat.yMMMd().format(datePicked!);

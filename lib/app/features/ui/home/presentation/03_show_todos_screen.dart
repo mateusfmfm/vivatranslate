@@ -44,6 +44,7 @@ class _ShowTodosScreenState extends State<ShowTodosScreen> {
   @override
   Widget build(BuildContext context) {
     return UIScaffold(
+      title: "Opened ToDos",
       body: [
         BlocListener<HomeCubit, HomeState>(
           listener: (context, state) {},
@@ -90,6 +91,7 @@ class _ShowTodosScreenState extends State<ShowTodosScreen> {
                                               objid: data.objid,
                                               id: data.id,
                                               description: data.description,
+                                              isCompleted: data.isCompleted,
                                               createdAt: data.createdAt,
                                               location: data.location,
                                               todoDate: data.todoDate,

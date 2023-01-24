@@ -24,11 +24,13 @@ class CustomColors {
     backgroundColor: CustomColors.backgroundDeepDark,
     brightness: Brightness.dark,
     primaryColor: CustomColors.primaryBlue,
-    appBarTheme: const AppBarTheme(backgroundColor: CustomColors.backgroundDeepDark),
+    appBarTheme:
+        const AppBarTheme(backgroundColor: CustomColors.backgroundDeepDark),
     iconTheme: const IconThemeData(color: CustomColors.lightGrey),
     cardTheme: const CardTheme(color: CustomColors.extremeDarkGrey),
     textTheme: const TextTheme(
-        bodyText1: TextStyle(color: CustomColors.extremeLightGrey), labelMedium: TextStyle(color: CustomColors.grey)),
+        bodyText1: TextStyle(color: CustomColors.extremeLightGrey),
+        labelMedium: TextStyle(color: CustomColors.grey)),
     buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
   );
 

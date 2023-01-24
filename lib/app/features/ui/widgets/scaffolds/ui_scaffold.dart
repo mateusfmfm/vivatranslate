@@ -46,6 +46,8 @@ class _UIScaffoldState extends State<UIScaffold> {
       appBar: PreferredSize(
         preferredSize: Size(MediaQuery.of(context).size.width, 55),
         child: AppBar(
+          title: widget.title != null ? TextRegular(widget.title) : Container(),
+          centerTitle: true,
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           flexibleSpace: GestureDetector(
             onTap: () => Navigator.of(context).pushNamed(Routes.HOME),
