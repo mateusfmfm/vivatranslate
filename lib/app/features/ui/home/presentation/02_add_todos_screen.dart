@@ -13,7 +13,7 @@ import 'package:record/record.dart';
 import 'package:vivatranslate_mateus/app/core/helpers/app_persmissions.dart';
 import 'package:vivatranslate_mateus/app/core/helpers/id_util.dart';
 import 'package:vivatranslate_mateus/app/features/routes/app_routes.dart';
-import 'package:vivatranslate_mateus/app/features/ui/home/data/todo_model.dart';
+import 'package:vivatranslate_mateus/app/features/ui/home/data/models/todo_model.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/cubit/home_cubit.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/buttons/ui_button.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/loaders/ui_circular_loading.dart';

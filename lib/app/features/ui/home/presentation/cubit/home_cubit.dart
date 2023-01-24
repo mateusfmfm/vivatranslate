@@ -8,13 +8,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:googleapis/speech/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
-import 'package:vivatranslate_mateus/app/features/ui/home/data/todo_model.dart';
+import 'package:vivatranslate_mateus/app/features/ui/home/data/repository/home_repository.dart';
+import 'package:vivatranslate_mateus/app/features/ui/home/data/models/todo_model.dart';
 import 'package:vivatranslate_mateus/main.dart';
 
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
+
+  HomeRepository homeRepository = HomeRepository();
 
   List<Todo> _todos = [];
   List<Todo> get todos => _todos;
@@ -46,9 +49,10 @@ class HomeCubit extends Cubit<HomeState> {
 
   performAddTodo(Todo todo) async {
     try {
+      emit(PerformingAddTodo());
+
       objectBox.insertTodo(todo);
 
-      await Future.delayed(const Duration(milliseconds: 300));
       emit(PerformingAddTodoSuccess(todos: _todos));
     } catch (e) {
       debugPrint('$e');
@@ -118,50 +122,12 @@ class HomeCubit extends Cubit<HomeState> {
   transcribeDescription(String audioPath) async {
     try {
       emit(TranscriptionInitialized());
-      final credentials = ServiceAccountCredentials.fromJson(await rootBundle
-          .loadString('keys/challenges-374904-4e20da4930a2.json'));
-      const scopes = [SpeechApi.cloudPlatformScope];
-
-      await clientViaServiceAccount(credentials, scopes).then((httpClient) {
-        var speech = SpeechApi(httpClient);
-        try {
-          _readFileByte(audioPath).then((bytesData) async {
-            String audioString = base64.encode(bytesData);
-            RecognizeRequest r = RecognizeRequest();
-            RecognitionAudio audio =
-                RecognitionAudio.fromJson({'content': audioString});
-            r.audio = audio;
-            RecognitionConfig config = RecognitionConfig.fromJson({
-              "encoding": "FLAC",
-              "sampleRateHertz": 16000,
-              "languageCode": "en-US",
-            });
-            r.config = config;
-            await speech.speech.recognize(r).then((results) {
-              for (var result in results.results!) {
-                _audioTranscription = result.alternatives![0].transcript!;
-              }
-
-              emit(TranscriptionSuccessful(result: _audioTranscription));
-              log(_audioTranscription);
-            }).catchError((error) => print('$error'));
-          });
-        } catch (e) {
-          print(e);
-        }
-      });
+      _audioTranscription = await homeRepository.transcribeAudio(audioPath);
+      emit(TranscriptionSuccessful(result: _audioTranscription));
     } catch (e) {
       debugPrint('$e');
       await File(audioPath).delete();
       emit(TranscriptionFailed());
     }
-  }
-
-  Future<Uint8List> _readFileByte(String filePath) async {
-    File audioFile = File(filePath);
-    Uint8List bytes;
-    var result = await audioFile.readAsBytes();
-    bytes = Uint8List.fromList(result);
-    return bytes;
   }
 }

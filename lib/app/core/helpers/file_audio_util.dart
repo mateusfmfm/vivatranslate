@@ -11,6 +11,14 @@ class FileAudioUtil {
 
   FileAudioUtil({this.base64, this.path});
 
+  Future<Uint8List> readFileByte(String filePath) async {
+    File audioFile = File(filePath);
+    Uint8List bytes;
+    var result = await audioFile.readAsBytes();
+    bytes = Uint8List.fromList(result);
+    return bytes;
+  }
+
   getFileFromBase64() async {
     try {
       Uint8List bytes = base64Decode(base64!);

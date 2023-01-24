@@ -1,4 +1,4 @@
-import 'package:vivatranslate_mateus/app/features/ui/home/data/todo_model.dart';
+import 'package:vivatranslate_mateus/app/features/ui/home/data/models/todo_model.dart';
 import 'package:vivatranslate_mateus/objectbox.g.dart';
 
 class ObjectBox {

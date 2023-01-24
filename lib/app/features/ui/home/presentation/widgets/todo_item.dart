@@ -11,7 +11,7 @@ import 'package:record/record.dart';
 import 'package:vivatranslate_mateus/app/core/helpers/file_audio_util.dart';
 import 'package:vivatranslate_mateus/app/core/theme/colors/app_colors.dart';
 import 'package:vivatranslate_mateus/app/core/helpers/date_util.dart';
-import 'package:vivatranslate_mateus/app/features/ui/home/data/todo_model.dart';
+import 'package:vivatranslate_mateus/app/features/ui/home/data/models/todo_model.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/cubit/home_cubit.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/buttons/ui_button.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/dialogs/ui_dialog.dart';

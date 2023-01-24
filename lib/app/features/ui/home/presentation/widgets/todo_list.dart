@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vivatranslate_mateus/app/core/theme/colors/app_colors.dart';
-import 'package:vivatranslate_mateus/app/features/ui/home/data/todo_model.dart';
+import 'package:vivatranslate_mateus/app/features/ui/home/data/models/todo_model.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/cubit/home_cubit.dart';
 import 'package:vivatranslate_mateus/app/features/ui/home/presentation/widgets/todo_item.dart';
 import 'package:vivatranslate_mateus/app/features/ui/widgets/loaders/ui_circular_loading.dart';
